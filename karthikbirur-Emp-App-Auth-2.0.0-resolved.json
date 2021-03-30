@@ -1,0 +1,319 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Employee Application",
+    "description": "Used for fetching or inserting the employees into the database",
+    "contact": {
+      "name": "Karthik B S",
+      "url": "https://karthik-bs.com",
+      "email": "birurkarthik@gmail.com"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    },
+    "version": "2.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://birurkarthik-eval-test.apigee.net/v1/api",
+      "description": "API proxy called for calling the backend API"
+    }
+  ],
+  "security": [
+    {
+      "Emp_OAuth2": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "employees",
+      "description": "All Employees"
+    }
+  ],
+  "paths": {
+    "/employee": {
+      "get": {
+        "tags": [
+          "employees"
+        ],
+        "summary": "Get all employees",
+        "operationId": "getEmployees",
+        "responses": {
+          "200": {
+            "description": "Complete list of employees",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Employees"
+                },
+                "example": [
+                  {
+                    "id": 1,
+                    "employee_name": "Tiger Nixon",
+                    "employee_salary": 320800,
+                    "employee_age": 61,
+                    "profile_image": ""
+                  },
+                  {
+                    "id": 2,
+                    "employee_name": "Garrett Winters",
+                    "employee_salary": 170750,
+                    "employee_age": 63,
+                    "profile_image": ""
+                  },
+                  {
+                    "id": 3,
+                    "employee_name": "Ashton Cox",
+                    "employee_salary": 86000,
+                    "employee_age": 66,
+                    "profile_image": ""
+                  }
+                ]
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/employee/{id}": {
+      "get": {
+        "tags": [
+          "employees"
+        ],
+        "summary": "Get a specific employee",
+        "operationId": "getEmployeeById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "employee id",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Selected employee",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Employee"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Employee not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/create": {
+      "post": {
+        "tags": [
+          "employees"
+        ],
+        "summary": "Create a new employee",
+        "operationId": "createEmployee",
+        "requestBody": {
+          "description": "New employee fields (freeform)",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Create"
+              },
+              "example": {
+                "name": "test",
+                "salary": "123",
+                "age": "23"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Order created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NewEmployeeResponse"
+                },
+                "example": {
+                  "name": "test",
+                  "salary": "123",
+                  "age": "23",
+                  "id": 7925
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Employee": {
+        "required": [
+          "employee_age",
+          "employee_name",
+          "employee_salary",
+          "id",
+          "profile_image"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Unique identifier for an employee"
+          },
+          "employee_name": {
+            "type": "string",
+            "description": "Name of the employee"
+          },
+          "employee_salary": {
+            "type": "integer",
+            "description": "Employee salary"
+          },
+          "employee_age": {
+            "type": "integer",
+            "description": "Employee age"
+          },
+          "profile_image": {
+            "type": "string",
+            "description": "Employee image"
+          }
+        },
+        "description": "employee"
+      },
+      "Employees": {
+        "type": "array",
+        "description": "array of employees",
+        "items": {
+          "$ref": "#/components/schemas/Employee"
+        }
+      },
+      "Create": {
+        "required": [
+          "age",
+          "name",
+          "salary"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the employee"
+          },
+          "salary": {
+            "type": "integer",
+            "description": "Employee salary"
+          },
+          "age": {
+            "type": "integer",
+            "description": "Employee age"
+          }
+        },
+        "description": "employee"
+      },
+      "NewEmployeeResponse": {
+        "required": [
+          "age",
+          "id",
+          "name",
+          "salary"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the employee"
+          },
+          "salary": {
+            "type": "integer",
+            "description": "Employee salary"
+          },
+          "age": {
+            "type": "integer",
+            "description": "Employee age"
+          },
+          "id": {
+            "type": "integer",
+            "description": "Employee id"
+          }
+        },
+        "description": "employee response"
+      },
+      "Error": {
+        "required": [
+          "error",
+          "error_description"
+        ],
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "error_description": {
+            "type": "string"
+          }
+        },
+        "description": "error response"
+      }
+    },
+    "securitySchemes": {
+      "Emp_OAuth2": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://birurkarthik-eval-test.apigee.net/oauth2/token",
+            "scopes": {}
+          }
+        }
+      }
+    }
+  }
+}
