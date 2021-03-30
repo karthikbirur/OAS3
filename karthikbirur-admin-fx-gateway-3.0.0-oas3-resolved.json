@@ -1,0 +1,212 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "admin fx gateway - OpenAPI 3.0",
+    "description": "This is a sample admin fx gateway based on the OpenAPI 3.0 specification.",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "birurkarthik@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "3.0.0-oas3"
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  },
+  "servers": [
+    {
+      "url": "https://birurkarthik-eval-test.apigee.net/admin-fx-gateway"
+    }
+  ],
+  "paths": {
+    "/quotes/{quoteRequestId}": {
+      "get": {
+        "summary": "retrieves quote for the specified quoteRequestId",
+        "operationId": "getQuotebyId",
+        "parameters": [
+          {
+            "name": "quoteRequestId",
+            "in": "path",
+            "description": "The quoteRequestId that needs to be sent in the request.",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Quote"
+                },
+                "example": {
+                  "application/json": {
+                    "quoteRequestId": "XYZ-ABC-1",
+                    "quoteName": "ABC",
+                    "quoteDescription": "ABC description",
+                    "status": "approved"
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/quotes/indicative": {
+      "post": {
+        "summary": "posts the indicative quotes",
+        "operationId": "postIndicativeQuote",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Quote"
+              },
+              "example": {
+                "application/json": {
+                  "quoteRequestId": "XYZ-ABC-1",
+                  "quoteName": "ABC",
+                  "quoteDescription": "ABC description",
+                  "status": "approved"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Quote"
+                },
+                "example": {
+                  "application/json": {
+                    "quoteRequestId": "XYZ-ABC-1",
+                    "quoteName": "ABC",
+                    "quoteDescription": "ABC description",
+                    "status": "approved"
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/quotes/dealable": {
+      "post": {
+        "summary": "posts the dealable quotes",
+        "operationId": "postDealableQuote",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Quote"
+              },
+              "example": {
+                "application/json": {
+                  "quoteRequestId": "XYZ-ABC-1",
+                  "quoteName": "ABC",
+                  "quoteDescription": "ABC description",
+                  "status": "approved"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Quote"
+                },
+                "example": {
+                  "application/json": {
+                    "quoteRequestId": "XYZ-ABC-1",
+                    "quoteName": "ABC",
+                    "quoteDescription": "ABC description",
+                    "status": "approved"
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Quote": {
+        "properties": {
+          "quoteRequestId": {
+            "type": "string",
+            "example": "XYZ-ABC-1"
+          },
+          "quoteName": {
+            "type": "string",
+            "example": "ABC"
+          },
+          "quoteDescription": {
+            "type": "string",
+            "example": "ABC description"
+          },
+          "status": {
+            "type": "string",
+            "description": "Quote Status",
+            "example": "approved",
+            "enum": [
+              "placed",
+              "approved"
+            ]
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "api_key": {
+        "type": "apiKey",
+        "name": "apikey",
+        "in": "header"
+      }
+    }
+  }
+}
